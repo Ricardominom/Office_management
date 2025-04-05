@@ -1,8 +1,9 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Badge, Box, Divider } from '@mui/material';
-import { Bell, LogOut, Moon, Sun } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { AppBar, Toolbar, Button, IconButton, Badge, Box, Divider } from '@mui/material';
+import { Bell, Moon, Sun, Building2 } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { LogoutDialog } from './LogoutDialog';
 
 interface NavbarProps {
   user: { name: string };
@@ -11,6 +12,14 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ user }) => {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const [isLogoutOpen, setIsLogoutOpen] = React.useState(false);
+
+  const handleLogout = () => {
+    console.log('Sesión cerrada desde Navbar');
+    setIsLogoutOpen(false);
+    navigate('/');
+  };
 
   return (
     <AppBar 
@@ -44,16 +53,13 @@ export const Navbar: React.FC<NavbarProps> = ({ user }) => {
           gap: 2,
         }}
       >
-        <Typography 
-          sx={{ 
-            fontSize: '1.25rem',
-            fontWeight: 500,
-            color: 'var(--text-primary)',
-            minWidth: '200px',
-          }}
+        <button 
+          onClick={() => navigate('/')}
+          className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
         >
-          Office Management
-        </Typography>
+          <Building2 className="h-8 w-8 text-primary" />
+          <span className="ml-2 text-xl font-bold text-primary">Plataforma UNO</span>
+        </button>
 
         <Box 
           sx={{ 
@@ -98,20 +104,6 @@ export const Navbar: React.FC<NavbarProps> = ({ user }) => {
           minWidth: '300px',
           justifyContent: 'flex-end',
         }}>
-          <Typography 
-            noWrap
-            sx={{ 
-              fontSize: '0.875rem',
-              color: 'var(--text-secondary)',
-              maxWidth: '160px',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-            }}
-          >
-            {user.name}
-          </Typography>
-
           <Divider orientation="vertical" flexItem sx={{ borderColor: 'var(--border-color)' }} />
 
           <Box sx={{ display: 'flex', gap: 1.5 }}>
@@ -155,18 +147,11 @@ export const Navbar: React.FC<NavbarProps> = ({ user }) => {
               </Badge>
             </IconButton>
 
-            <IconButton 
-              size="small"
-              sx={{ 
-                color: 'var(--text-secondary)',
-                '&:hover': {
-                  color: 'var(--text-primary)',
-                  backgroundColor: 'transparent',
-                }
-              }}
-            >
-              <LogOut size={18} />
-            </IconButton>
+            <LogoutDialog
+              isOpen={isLogoutOpen}
+              onOpenChange={setIsLogoutOpen}
+              onLogout={handleLogout}
+            />
           </Box>
         </Box>
       </Toolbar>

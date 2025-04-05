@@ -22,12 +22,21 @@ function App() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <CssBaseline />
           <div className="min-h-screen">
-            <Navbar user={mockUser} />
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/agreements" element={<AgreementsPage />} />
-              <Route path="/todos" element={<TodosPage />} />
-              <Route path="/toolbox" element={<ToolboxPage />} />
+              <Route
+                path="/*"
+                element={
+                  <>
+                    <Navbar user={mockUser} />
+                    <Routes>
+                      <Route path="/agreements" element={<AgreementsPage />} />
+                      <Route path="/todos" element={<TodosPage />} />
+                      <Route path="/toolbox" element={<ToolboxPage />} />
+                    </Routes>
+                  </>
+                }
+              />
             </Routes>
           </div>
         </LocalizationProvider>

@@ -24,10 +24,11 @@ export function Login() {
       container: isDark ? 'bg-gray-900' : 'bg-background',
       text: isDark ? 'text-gray-200' : 'text-gray-800',
       secondaryText: isDark ? 'text-gray-400' : 'text-gray-500',
-      inputBg: isDark ? 'bg-gray-700' : 'bg-secondary',
+      inputBg: 'bg-secondary', // Siempre bg-secondary
       inputBorder: isDark ? 'border-gray-600' : 'border-gray-300',
       formBg: isDark ? 'bg-gray-800' : 'bg-gray-100',
       placeholder: isDark ? 'placeholder-gray-500' : 'placeholder-gray-400',
+      inputText: 'text-black', // Texto negro para evitar que se pierda en modo oscuro
     };
   }, [theme]);
 
@@ -88,7 +89,7 @@ export function Login() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBg} ${styles.inputBorder} border rounded-md shadow-sm ${styles.placeholder} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.text}`}
+                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBg} ${styles.inputBorder} border rounded-md shadow-sm ${styles.placeholder} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.inputText}`}
                 />
               </div>
             </div>
@@ -106,7 +107,7 @@ export function Login() {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBg} ${styles.inputBorder} border rounded-md shadow-sm ${styles.placeholder} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.text}`}
+                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBg} ${styles.inputBorder} border rounded-md shadow-sm ${styles.placeholder} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.inputText}`}
                 />
               </div>
             </div>

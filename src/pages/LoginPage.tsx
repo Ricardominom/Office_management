@@ -1,59 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext'; // Importa el ThemeContext
+import { useTheme } from '../context/ThemeContext';
+
+interface FormState {
+  email: string;
+  password: string;
+}
 
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null); // Estado para manejar errores
+  const [formData, setFormData] = useState<FormState>({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { theme } = useTheme(); // Usa el ThemeContext para obtener el tema actual
+  const { theme } = useTheme();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Use memoization for styles calculation
+  const styles = useMemo(() => {
+    const isDark = theme === 'dark';
+    return {
+      container: isDark ? 'bg-gray-900' : 'bg-background',
+      text: isDark ? 'text-gray-200' : 'text-gray-800',
+      secondaryText: isDark ? 'text-gray-400' : 'text-gray-500',
+      inputBg: isDark ? 'bg-gray-700' : 'bg-secondary',
+      inputBorder: isDark ? 'border-gray-600' : 'border-gray-300',
+      formBg: isDark ? 'bg-gray-800' : 'bg-gray-100',
+      placeholder: isDark ? 'placeholder-gray-500' : 'placeholder-gray-400',
+    };
+  }, [theme]);
+
+  // Use callback for input change handling
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing again
+    if (error) setError(null);
+  }, [error]);
+
+  const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
+    const { email, password } = formData;
+
     if (!email || !password) {
       setError('Por favor, completa todos los campos.');
       return;
     }
-    setError(null); // Limpia el error si todo está bien
-    navigate('/agreements'); // Redirige directamente a la página de acuerdos
-  };
 
-  const getStyles = () => ({
-    textColor: theme === 'dark' ? 'text-gray-200' : 'text-gray-800',
-    inputBgColor: theme === 'dark' ? 'bg-gray-700' : 'bg-secondary',
-    inputBorderColor: theme === 'dark' ? 'border-gray-600' : 'border-gray-300',
-    formBgColor: theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100', 
-    placeholderColor: theme === 'dark' ? 'placeholder-gray-500' : 'placeholder-gray-400',
-  });
-
-  const styles = getStyles();
+    setError(null);
+    navigate('/agreements');
+  }, [formData, navigate]);
 
   return (
-    <div className={`min-h-screen flex flex-col justify-center py-6 px-4 sm:px-6 lg:px-8 ${theme === 'dark' ? 'bg-gray-900' : 'bg-background'}`}>
+    <div className={`min-h-screen flex flex-col justify-center py-6 px-4 sm:px-6 lg:px-8 ${styles.container}`}>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <Building2 className={`h-10 w-10 sm:h-12 sm:w-12 ${styles.textColor}`} />
+          <Building2 className={`h-10 w-10 sm:h-12 sm:w-12 ${styles.text}`} aria-hidden="true" />
         </div>
-        <h2 className={`mt-4 sm:mt-6 text-center text-2xl sm:text-3xl font-extrabold ${styles.textColor}`}>
+        <h2 className={`mt-4 sm:mt-6 text-center text-2xl sm:text-3xl font-extrabold ${styles.text}`}>
           Plataforma UNO
         </h2>
-        <p className={`mt-1 sm:mt-2 text-center text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+        <p className={`mt-1 sm:mt-2 text-center text-sm ${styles.secondaryText}`}>
           Gestión de Oficina Presidencial
         </p>
       </div>
 
       <div className="mt-6 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className={`py-6 px-4 sm:py-8 sm:px-6 shadow sm:rounded-lg ${styles.formBgColor}`}>
-          <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+        <div className={`py-6 px-4 sm:py-8 sm:px-6 shadow sm:rounded-lg ${styles.formBg}`}>
+          <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit} noValidate>
             {error && (
-              <div className="text-red-500 text-sm">
+              <div className="text-red-500 text-sm" role="alert">
                 {error}
               </div>
             )}
+
             <div>
-              <label htmlFor="email" className={`block text-sm font-medium ${styles.textColor}`}>
+              <label htmlFor="email" className={`block text-sm font-medium ${styles.text}`}>
                 Correo electrónico
               </label>
               <div className="mt-1">
@@ -63,16 +86,15 @@ export function Login() {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBgColor} ${styles.inputBorderColor} border rounded-md shadow-sm ${styles.placeholderColor} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.textColor}`}
-                  aria-label="Correo electrónico"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBg} ${styles.inputBorder} border rounded-md shadow-sm ${styles.placeholder} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.text}`}
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className={`block text-sm font-medium ${styles.textColor}`}>
+              <label htmlFor="password" className={`block text-sm font-medium ${styles.text}`}>
                 Contraseña
               </label>
               <div className="mt-1">
@@ -82,10 +104,9 @@ export function Login() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBgColor} ${styles.inputBorderColor} border rounded-md shadow-sm ${styles.placeholderColor} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.textColor}`}
-                  aria-label="Contraseña"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className={`appearance-none block w-full px-3 py-2 ${styles.inputBg} ${styles.inputBorder} border rounded-md shadow-sm ${styles.placeholder} focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${styles.text}`}
                 />
               </div>
             </div>

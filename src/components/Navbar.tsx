@@ -89,10 +89,9 @@ export const Navbar: React.FC<NavbarProps> = ({ user }) => {
   }), [theme]);
 
   // Handlers
-  const handleLogoClick = useCallback(() => navigate('/'), [navigate]);
+  const handleLogoClick = useCallback(() => navigate('/agreements'), [navigate]);
 
   const handleLogout = useCallback(() => {
-    console.log('Sesión cerrada desde Navbar');
     setIsLogoutOpen(false);
     navigate('/');
   }, [navigate]);

@@ -24,7 +24,7 @@ export function Login() {
     textColor: theme === 'dark' ? 'text-gray-200' : 'text-gray-800',
     inputBgColor: theme === 'dark' ? 'bg-gray-700' : 'bg-secondary',
     inputBorderColor: theme === 'dark' ? 'border-gray-600' : 'border-gray-300',
-    formBgColor: theme === 'dark' ? 'bg-gray-800' : 'bg-accent',
+    formBgColor: theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100', 
     placeholderColor: theme === 'dark' ? 'placeholder-gray-500' : 'placeholder-gray-400',
   });
 

@@ -20,6 +20,7 @@ import { NewAgreementDialog } from '../components/agreements/NewAgreementDialog'
 import { EditAgreementDialog } from '../components/agreements/EditAgreementDialog';
 import { NewListDialog } from '../components/todos/NewListDialog';
 import { Agreement, AgreementStatus } from '../types/agreement';
+import { Dayjs } from 'dayjs';
 
 // Mock data with two different lists
 const mockAgreements: Agreement[] = [
@@ -145,10 +146,21 @@ export const AgreementsPage: React.FC = () => {
     }
   };
 
-  const handleNewAgreement = (agreement: any) => {
-    const newAgreement = {
+  const handleNewAgreement = (agreement: {
+    element: string;
+    responsible: string;
+    status: AgreementStatus;
+    requestDate: Dayjs; // Cambiado a Dayjs
+    deliveryDate: Dayjs; // Cambiado a Dayjs
+    description: string;
+    sjRequest: string;
+    sjStatus: AgreementStatus;
+  }) => {
+    const newAgreement: Agreement = {
       ...agreement,
       id: (agreements.length + 1).toString(),
+      requestDate: agreement.requestDate.format('YYYY-MM-DD'), // Convertir a string
+      deliveryDate: agreement.deliveryDate.format('YYYY-MM-DD'), // Convertir a string
     };
     setAgreements([...agreements, newAgreement]);
   };

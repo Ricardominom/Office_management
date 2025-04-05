@@ -22,7 +22,16 @@ import { AgreementStatus } from '../../types/agreement';
 interface NewAgreementDialogProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (agreement: any) => void;
+  onSubmit: (agreement: {
+    element: string;
+    responsible: string;
+    status: AgreementStatus;
+    requestDate: dayjs.Dayjs;
+    deliveryDate: dayjs.Dayjs;
+    description: string;
+    sjRequest: string;
+    sjStatus: AgreementStatus;
+  }) => void;
 }
 
 const statusOptions: { value: AgreementStatus; label: string }[] = [
@@ -234,7 +243,7 @@ export const NewAgreementDialog: React.FC<NewAgreementDialogProps> = ({
               <DatePicker
                 label="Fecha solicitud"
                 value={formData.requestDate}
-                onChange={(date) => setFormData({ ...formData, requestDate: date })}
+                onChange={(date) => setFormData({ ...formData, requestDate: date ?? dayjs() })}
                 slotProps={{ 
                   textField: { 
                     size: 'small',
@@ -259,7 +268,7 @@ export const NewAgreementDialog: React.FC<NewAgreementDialogProps> = ({
               <DatePicker
                 label="Fecha entrega"
                 value={formData.deliveryDate}
-                onChange={(date) => setFormData({ ...formData, deliveryDate: date })}
+                onChange={(date) => setFormData({ ...formData, deliveryDate: date ?? dayjs() })}
                 slotProps={{ 
                   textField: { 
                     size: 'small',

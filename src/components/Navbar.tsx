@@ -21,6 +21,9 @@ export const Navbar: React.FC<NavbarProps> = ({ user }) => {
     navigate('/');
   };
 
+  const buttonTextStyle = theme === 'dark' ? 'text-primary' : 'text-gray-800';
+  const buttonIconStyle = theme === 'dark' ? 'text-primary' : 'text-gray-800';
+
   return (
     <AppBar 
       position="fixed" 
@@ -55,10 +58,10 @@ export const Navbar: React.FC<NavbarProps> = ({ user }) => {
       >
         <button 
           onClick={() => navigate('/')}
-          className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
+          className={`flex-shrink-0 flex items-center hover:opacity-80 transition-opacity ${buttonTextStyle}`}
         >
-          <Building2 className="h-8 w-8 text-primary" />
-          <span className="ml-2 text-xl font-bold text-primary">Plataforma UNO</span>
+          <Building2 className={`h-8 w-8 ${buttonIconStyle}`} />
+          <span className={`ml-2 text-xl font-bold ${buttonTextStyle}`}>Plataforma UNO</span>
         </button>
 
         <Box 

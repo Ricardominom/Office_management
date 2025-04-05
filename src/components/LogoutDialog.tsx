@@ -19,14 +19,16 @@ export const LogoutDialog: React.FC<LogoutDialogProps> = ({ isOpen, onOpenChange
     navigate('/');
   };
 
-  const overlayStyle = theme === 'dark' ? 'bg-black/70' : 'bg-black/50';
+  const overlayStyle = theme === 'dark' ? 'bg-black/70' : 'bg-black/30'; // Ajusta la opacidad en modo claro
   const contentStyle = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black';
+  const buttonTextStyle = theme === 'dark' ? 'text-primary' : 'text-gray-800';
+  const buttonBgStyle = theme === 'dark' ? 'bg-secondary' : 'bg-white'; // Fondo blanco en modo claro
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
       <Dialog.Trigger asChild>
         <button
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary bg-secondary hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md ${buttonTextStyle} ${buttonBgStyle} hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
         >
           <LogOut className="h-4 w-4 mr-2" />
           Cerrar Sesión

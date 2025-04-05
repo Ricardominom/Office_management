@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../hooks/useTheme';
 
 interface FormState {
   email: string;

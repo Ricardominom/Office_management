@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Navbar } from './components/Navbar';
+import { Navbar } from './components/common/Navbar';
 import { AgreementsPage } from './pages/AgreementsPage';
 import { TodosPage } from './pages/TodosPage';
 import { ToolboxPage } from './pages/ToolboxPage';

@@ -69,7 +69,7 @@ const users = [
 
 export const ToolboxPage: React.FC = () => {
   return (
-    <Box sx={{ 
+    <Box sx={{
       pt: 'calc(var(--nav-height) + 24px)',
       pb: 4,
       px: { xs: 2, sm: 3, md: 4 },
@@ -406,7 +406,7 @@ export const ToolboxPage: React.FC = () => {
                         width: 32,
                         height: 32,
                         borderRadius: '8px',
-                        backgroundColor: activity.type === 'agreement' 
+                        backgroundColor: activity.type === 'agreement'
                           ? 'rgba(0, 113, 227, 0.1)'
                           : 'rgba(48, 209, 88, 0.1)',
                         display: 'flex',
@@ -442,20 +442,20 @@ export const ToolboxPage: React.FC = () => {
                       </Typography>
                     </Box>
                     <Chip
-                      label={activity.status === 'completed' ? 'Completado' : 
-                             activity.status === 'in_progress' ? 'En Proceso' : 'Pendiente'}
+                      label={activity.status === 'completed' ? 'Completado' :
+                        activity.status === 'in_progress' ? 'En Proceso' : 'Pendiente'}
                       size="small"
                       sx={{
-                        backgroundColor: activity.status === 'completed' 
+                        backgroundColor: activity.status === 'completed'
                           ? 'rgba(48, 209, 88, 0.1)'
                           : activity.status === 'in_progress'
-                          ? 'rgba(0, 113, 227, 0.1)'
-                          : 'rgba(255, 45, 85, 0.1)',
+                            ? 'rgba(0, 113, 227, 0.1)'
+                            : 'rgba(255, 45, 85, 0.1)',
                         color: activity.status === 'completed'
                           ? '#30d158'
                           : activity.status === 'in_progress'
-                          ? '#0071e3'
-                          : '#ff2d55',
+                            ? '#0071e3'
+                            : '#ff2d55',
                         fontSize: '0.75rem',
                         height: '24px',
                         borderRadius: '12px',

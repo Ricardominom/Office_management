@@ -15,11 +15,12 @@ import {
   DialogActions,
 } from '@mui/material';
 import { Plus, Search } from 'lucide-react';
-import { AgreementTable } from '../components/AgreementTable';
-import { NewAgreementDialog } from '../components/NewAgreementDialog';
-import { EditAgreementDialog } from '../components/EditAgreementDialog';
-import { NewListDialog } from '../components/NewListDialog';
+import { AgreementTable } from '../components/agreements/AgreementTable';
+import { NewAgreementDialog } from '../components/agreements/NewAgreementDialog';
+import { EditAgreementDialog } from '../components/agreements/EditAgreementDialog';
+import { NewListDialog } from '../components/todos/NewListDialog';
 import { Agreement, AgreementStatus } from '../types/agreement';
+import { Dayjs } from 'dayjs';
 
 // Mock data with two different lists
 const mockAgreements: Agreement[] = [
@@ -128,7 +129,7 @@ export const AgreementsPage: React.FC = () => {
   };
 
   const handleEditSubmit = (updatedAgreement: Agreement) => {
-    setAgreements(agreements.map(agreement => 
+    setAgreements(agreements.map(agreement =>
       agreement.id === updatedAgreement.id ? updatedAgreement : agreement
     ));
     setEditingAgreement(null);
@@ -145,10 +146,21 @@ export const AgreementsPage: React.FC = () => {
     }
   };
 
-  const handleNewAgreement = (agreement: any) => {
-    const newAgreement = {
+  const handleNewAgreement = (agreement: {
+    element: string;
+    responsible: string;
+    status: AgreementStatus;
+    requestDate: Dayjs; // Cambiado a Dayjs
+    deliveryDate: Dayjs; // Cambiado a Dayjs
+    description: string;
+    sjRequest: string;
+    sjStatus: AgreementStatus;
+  }) => {
+    const newAgreement: Agreement = {
       ...agreement,
       id: (agreements.length + 1).toString(),
+      requestDate: agreement.requestDate.format('YYYY-MM-DD'), // Convertir a string
+      deliveryDate: agreement.deliveryDate.format('YYYY-MM-DD'), // Convertir a string
     };
     setAgreements([...agreements, newAgreement]);
   };
@@ -158,7 +170,7 @@ export const AgreementsPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ 
+    <Box sx={{
       pt: 'calc(var(--nav-height) + 24px)',
       pb: 4,
       px: { xs: 2, sm: 3, md: 4 },
@@ -166,8 +178,8 @@ export const AgreementsPage: React.FC = () => {
       backgroundColor: 'var(--app-bg)',
     }}>
       <Container maxWidth="xl" sx={{ mb: 4 }}>
-        <Box sx={{ 
-          display: 'flex', 
+        <Box sx={{
+          display: 'flex',
           justifyContent: 'flex-end',
           gap: 2,
           mb: 6,
@@ -176,7 +188,7 @@ export const AgreementsPage: React.FC = () => {
             variant="contained"
             startIcon={<Plus size={16} />}
             onClick={() => setIsNewAgreementOpen(true)}
-            sx={{ 
+            sx={{
               backgroundColor: '#0071e3',
               fontSize: '0.875rem',
               fontWeight: 400,
@@ -185,7 +197,7 @@ export const AgreementsPage: React.FC = () => {
               px: 3,
               height: '32px',
               boxShadow: 'none',
-              '&:hover': { 
+              '&:hover': {
                 backgroundColor: '#0077ED',
                 boxShadow: 'none',
               }
@@ -197,7 +209,7 @@ export const AgreementsPage: React.FC = () => {
             variant="outlined"
             startIcon={<Plus size={16} />}
             onClick={() => setIsNewListOpen(true)}
-            sx={{ 
+            sx={{
               borderColor: 'var(--border-color)',
               color: 'var(--text-primary)',
               fontSize: '0.875rem',
@@ -206,7 +218,7 @@ export const AgreementsPage: React.FC = () => {
               borderRadius: '980px',
               px: 3,
               height: '32px',
-              '&:hover': { 
+              '&:hover': {
                 borderColor: 'var(--text-secondary)',
                 backgroundColor: 'transparent',
               }
@@ -261,9 +273,9 @@ export const AgreementsPage: React.FC = () => {
           />
         </Box>
 
-        <Paper 
-          sx={{ 
-            mb: 4, 
+        <Paper
+          sx={{
+            mb: 4,
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: 'none',
@@ -281,8 +293,8 @@ export const AgreementsPage: React.FC = () => {
               },
             }}
           >
-            <Tab 
-              label="Contratos" 
+            <Tab
+              label="Contratos"
               sx={{
                 textTransform: 'none',
                 fontSize: '0.875rem',
@@ -293,8 +305,8 @@ export const AgreementsPage: React.FC = () => {
                 },
               }}
             />
-            <Tab 
-              label="Compliance" 
+            <Tab
+              label="Compliance"
               sx={{
                 textTransform: 'none',
                 fontSize: '0.875rem',
@@ -309,7 +321,7 @@ export const AgreementsPage: React.FC = () => {
         </Paper>
 
         <AgreementTable
-          agreements={filteredAgreements.filter((_, index) => 
+          agreements={filteredAgreements.filter((_, index) =>
             currentTab === 0 ? index < 3 : index >= 3
           )}
           onStatusChange={handleStatusChange}
@@ -350,7 +362,7 @@ export const AgreementsPage: React.FC = () => {
             },
           }}
         >
-          <DialogTitle sx={{ 
+          <DialogTitle sx={{
             fontSize: '1.125rem',
             fontWeight: 600,
             color: 'var(--text-primary)',
@@ -363,7 +375,7 @@ export const AgreementsPage: React.FC = () => {
             <Typography sx={{ color: 'var(--text-primary)' }}>
               ¿Estás seguro de que deseas eliminar este acuerdo?
             </Typography>
-            <Typography sx={{ 
+            <Typography sx={{
               color: 'var(--text-secondary)',
               fontSize: '0.875rem',
               mt: 1,
@@ -371,7 +383,7 @@ export const AgreementsPage: React.FC = () => {
               Esta acción no se puede deshacer.
             </Typography>
           </DialogContent>
-          <DialogActions sx={{ 
+          <DialogActions sx={{
             p: 2,
             borderTop: '1px solid var(--border-color)',
             gap: 1,

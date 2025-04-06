@@ -24,8 +24,8 @@ import {
   Search,
 } from 'lucide-react';
 import { TodoList, Todo, TodoPriority } from '../types/todo';
-import { NewListDialog } from '../components/NewListDialog';
-import { NewReminderDialog } from '../components/NewReminderDialog';
+import { NewListDialog } from '../components/todos/NewListDialog';
+import { NewReminderDialog } from '../components/todos/NewReminderDialog';
 import dayjs from 'dayjs';
 
 // Mock data
@@ -133,11 +133,11 @@ export const TodosPage: React.FC = () => {
 
   const getTodosCount = (filter: string): number => {
     const today = dayjs().startOf('day');
-    
+
     switch (filter) {
       case 'today':
-        return todos.filter(todo => 
-          !todo.completed && 
+        return todos.filter(todo =>
+          !todo.completed &&
           dayjs(todo.dueDate).startOf('day').isSame(today)
         ).length;
       case 'scheduled':
@@ -180,8 +180,8 @@ export const TodosPage: React.FC = () => {
   };
 
   const handleToggleTodo = (todoId: string) => {
-    setTodos(todos.map(todo => 
-      todo.id === todoId 
+    setTodos(todos.map(todo =>
+      todo.id === todoId
         ? { ...todo, completed: !todo.completed }
         : todo
     ));
@@ -194,7 +194,7 @@ export const TodosPage: React.FC = () => {
     // Apply filter
     switch (selectedFilter) {
       case 'today':
-        filtered = filtered.filter(todo => 
+        filtered = filtered.filter(todo =>
           dayjs(todo.dueDate).startOf('day').isSame(today)
         );
         break;
@@ -220,13 +220,13 @@ export const TodosPage: React.FC = () => {
       if (a.completed !== b.completed) {
         return a.completed ? 1 : -1;
       }
-      
+
       // Then by priority
       const priorityOrder = { high: 0, medium: 1, low: 2, none: 3 };
       if (a.priority !== b.priority) {
         return priorityOrder[a.priority] - priorityOrder[b.priority];
       }
-      
+
       // Finally by due date
       return dayjs(a.dueDate).isBefore(dayjs(b.dueDate)) ? -1 : 1;
     });
@@ -249,7 +249,7 @@ export const TodosPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ 
+    <Box sx={{
       pt: 'calc(var(--nav-height) + 24px)',
       pb: 4,
       px: { xs: 2, sm: 3, md: 4 },
@@ -327,17 +327,17 @@ export const TodosPage: React.FC = () => {
                 },
               }}
             >
-              <ListItemIcon 
-                sx={{ 
+              <ListItemIcon
+                sx={{
                   minWidth: 32,
-                  color: item.filter === 'today' ? '#0071e3' : 
-                         item.filter === 'all' ? '#ff9500' :
-                         item.filter === 'scheduled' ? '#ff2d55' : '#30d158'
+                  color: item.filter === 'today' ? '#0071e3' :
+                    item.filter === 'all' ? '#ff9500' :
+                      item.filter === 'scheduled' ? '#ff2d55' : '#30d158'
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText 
+              <ListItemText
                 primary={item.label}
                 primaryTypographyProps={{
                   fontSize: '0.875rem',
@@ -398,7 +398,7 @@ export const TodosPage: React.FC = () => {
               <ListItemIcon sx={{ minWidth: 32 }}>
                 <Circle size={12} fill={list.color} color={list.color} />
               </ListItemIcon>
-              <ListItemText 
+              <ListItemText
                 primary={list.name}
                 primaryTypographyProps={{
                   fontSize: '0.875rem',
@@ -431,7 +431,7 @@ export const TodosPage: React.FC = () => {
             <ListItemIcon sx={{ minWidth: 32, color: 'inherit' }}>
               <Plus size={16} />
             </ListItemIcon>
-            <ListItemText 
+            <ListItemText
               primary="Nueva Lista"
               primaryTypographyProps={{
                 fontSize: '0.875rem',
@@ -500,7 +500,7 @@ export const TodosPage: React.FC = () => {
                 '&:hover': {
                   backgroundColor: 'var(--hover-bg)',
                 },
-                opacity: todo.completed ? 0.6  : 1,
+                opacity: todo.completed ? 0.6 : 1,
                 transition: 'opacity 0.2s ease',
               }}
               onClick={() => handleToggleTodo(todo.id)}
@@ -558,7 +558,7 @@ export const TodosPage: React.FC = () => {
             <ListItemIcon sx={{ minWidth: 36, color: 'inherit' }}>
               <Plus size={18} />
             </ListItemIcon>
-            <ListItemText 
+            <ListItemText
               primary="Nuevo Recordatorio"
               primaryTypographyProps={{
                 fontSize: '0.875rem',

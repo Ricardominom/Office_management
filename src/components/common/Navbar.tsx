@@ -2,8 +2,8 @@ import React, { useMemo, useCallback, useState } from 'react';
 import { AppBar, Toolbar, Button, IconButton, Badge, Box, Divider } from '@mui/material';
 import { Bell, Moon, Sun, Building2, FileText, CheckSquare, Wrench } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
-import { LogoutDialog } from './LogoutDialog';
+import { useTheme } from '../../context/ThemeContext';
+import { LogoutDialog } from '../LogoutDialog';
 
 interface NavbarProps {
   user: { name: string };
